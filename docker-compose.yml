@@ -8,6 +8,8 @@ services:
     tty: true
     volumes:
       - ./opt:/root/opt
+    ports: 
+      - 8000:8000
   mysql:
         image: mysql:5.7
         environment:
