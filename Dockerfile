@@ -13,6 +13,5 @@ ENV TERM xterm
 RUN apt-get install -y vim less
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
-RUN pip install django
-RUN pip install djangorestframework
-RUN pip install django-filter 
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
