@@ -1,7 +1,9 @@
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 import uuid
 import os
@@ -12,12 +14,10 @@ import datetime as dt
 
 from .models import User
 from .serializer import UserSerializer
+from .utils.auth import NormalAuthentication
+from .utils.auth import JWTAuthentication
+from .utils.auth import hash_password
 
-
-def hash_password(my_password, salt):
-    password = bytes(my_password, 'utf-8')
-    safe_pass = hashlib.sha256(salt + password).hexdigest()
-    return safe_pass
 
 # 引数がuuid形式であればTrue, それ以外はFalseを返す
 def check_uuid_format(confirmed_text):
@@ -46,7 +46,7 @@ def pre_signup(request):
         # salt と password を結合してハッシュ化
         'password': hash_password(request.data['password'], salt),
         'urltoken': uuid.uuid4(),
-        'salt': str(salt)
+        'salt': salt.decode('utf8')
     }
     
     serializer = UserSerializer(data=insert_data)
@@ -78,14 +78,29 @@ def verify_user(request):
     
     if User.objects.filter(urltoken=got_token).exists():
         user_query = User.objects.get(urltoken=got_token)
-        
-        # (現在時間) > (タイムスタンプ + 1日)ならばtokenは有効
+
+        # (現在時間) > (タイムスタンプ + 1日)ならばtokenは無効
         effective_date = user_query.created_at + dt.timedelta(days=1)
         if dt.datetime.now() > effective_date:
             return JsonResponse({"message":"token is not valid"}, status=201)
         
         # ユーザー本登録の完了
         user_query.status = 1
+        # デコードしないと毎回エンコードされて保存される ('' -> b'' -> b"b''"")
+        user_query.salt = user_query.salt.decode('utf-8')
         user_query.save()
         return JsonResponse({"message":"ok"}, status=201)
     return JsonResponse({"message":"token is not valid"}, status=400)
+
+
+@csrf_exempt
+@api_view(['POST'])
+@authentication_classes([NormalAuthentication])
+def loginApi(request):
+    return JsonResponse({"token":request.user}, status=200)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def token(request):
+    return JsonResponse({"data":"token ok"}, status=200)
