@@ -5,3 +5,4 @@ django-filter
 mysqlclient
 pymysql
 python-dotenv
+pyjwt==1.7.1
