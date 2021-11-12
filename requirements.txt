@@ -6,3 +6,5 @@ mysqlclient
 pymysql
 python-dotenv
 pyjwt==1.7.1
+channels
+channels-redis
