@@ -11,12 +11,12 @@ class Room(models.Model):
 
 
 class RoomMember(models.Model):
-    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class RoomMessage(models.Model):
     message = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
-    send_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    send_user = models.ForeignKey(User, on_delete=models.CASCADE)
