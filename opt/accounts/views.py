@@ -46,7 +46,7 @@ def pre_signup(request):
         # salt と password を結合してハッシュ化
         'password': hash_password(request.data['password'], salt),
         'urltoken': uuid.uuid4(),
-        'salt': salt.decode('utf8')
+        'salt': salt.decode('utf-8'),
     }
     
     serializer = UserSerializer(data=insert_data)
@@ -86,8 +86,6 @@ def verify_user(request):
         
         # ユーザー本登録の完了
         user_query.status = 1
-        # デコードしないと毎回エンコードされて保存される ('' -> b'' -> b"b''"")
-        user_query.salt = user_query.salt.decode('utf-8')
         user_query.save()
         return JsonResponse({"message":"ok"}, status=201)
     return JsonResponse({"message":"token is not valid"}, status=400)
