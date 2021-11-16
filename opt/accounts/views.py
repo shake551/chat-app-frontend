@@ -82,7 +82,7 @@ def verify_user(request):
         # (現在時間) > (タイムスタンプ + 1日)ならばtokenは無効
         effective_date = user_query.created_at + dt.timedelta(days=1)
         if dt.datetime.now() > effective_date:
-            return JsonResponse({"message":"token is not valid"}, status=201)
+            return JsonResponse({"message":"token is not valid"}, status=200)
         
         # ユーザー本登録の完了
         user_query.status = 1
@@ -95,7 +95,7 @@ def verify_user(request):
 @api_view(['POST'])
 @authentication_classes([NormalAuthentication])
 def loginApi(request):
-    return JsonResponse({"token":request.user}, status=200)
+    return JsonResponse({"token":request.user}, status=201)
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])

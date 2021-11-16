@@ -36,7 +36,6 @@ def obtain_room(room_name):
 def add_user(room_name, user_name):
     user_query = obtain_user(user_name)
     room_query = obtain_room(room_name)
-    # if user_query and room_query:
     serializer = RoomMemberSerializer(data={
         'room': room_query.id,
         'user': user_query.id
