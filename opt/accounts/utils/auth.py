@@ -19,8 +19,8 @@ def hash_password(my_password, salt):
     return safe_pass
 
 # ユーザーのクエリを入力しtokenを返す
-def generate_jwt(user_query):
-    time_limit = int(time.time()) + 60*60
+def generate_token(user_query, setting_time):
+    time_limit = int(time.time()) + setting_time
     return jwt.encode(
         {"userid": user_query.pk, "name":user_query.name, "exp":time_limit},
         SECRET_KEY
@@ -42,8 +42,14 @@ class NormalAuthentication(BaseAuthentication):
 
         if confirmed_password != user_query.password:
             raise exceptions.AuthenticationFailed('パスワードあってません')
-        token = generate_jwt(user_query)
-        return (token, None)
+        access_token = generate_token(user_query, 60*60)
+        refresh_token = generate_token(user_query, 60*60*24)
+        
+        token_set = {
+            'refresh_token': refresh_token,
+            'access_token': access_token,
+        }
+        return (token_set, None)
 
 
 # token認証クラス
