@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from django.db import transaction
 
-from .models import Room
+from .models import Room, RoomMessage
 from .serializer import RoomSerializer, RoomMemberSerializer, RoomMessageSerializer
 import sys
 sys.path.append('../')
@@ -112,3 +112,28 @@ def obtain_all_rooms(request):
         rooms.append(tmp_room)
     res = {"rooms": rooms}
     return JsonResponse(res, status=201)
+
+# ルームのメッセージ取得
+@api_view(['GET'])
+def obtain_room_msg(request, room_id):
+    print(request.data['room_name'])
+    if not Room.objects.filter(pk=room_id):
+        return JsonResponse({"message": 'no room'}, status=400)
+    
+    all_message_query = RoomMessage.objects.filter(room_id=room_id)
+    messages = []
+    for message in all_message_query:
+        tmp_message = {
+            "message": message.message,
+            "time": message.created_at,
+            "send_user": message.send_user.name
+        }
+        messages.append(tmp_message)
+    res = {
+        "room": {
+            "room_id": room_id,
+            "name": request.data['room_name'],
+        },
+        "messages": messages
+    }
+    return JsonResponse(res, status=200)
