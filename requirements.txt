@@ -8,3 +8,4 @@ python-dotenv
 pyjwt==1.7.1
 channels
 channels-redis
+django-cors-headers
