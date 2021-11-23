@@ -95,3 +95,20 @@ def post_msg(request):
         serializer.save()
         return JsonResponse(serializer.data, status=201)
     return JsonResponse(serializer.errors, status=400)
+
+# 全roomの取得
+@api_view(['GET'])
+def obtain_all_rooms(request):
+    if not Room.objects.all().exists():
+        return JsonResponse({"message": 'no room'}, status=400)
+
+    rooms = []
+    all_rooms = Room.objects.all()
+    for room in all_rooms:
+        tmp_room = {
+            "room_id": room.id,
+            "room_name": room.name
+        }
+        rooms.append(tmp_room)
+    res = {"rooms": rooms}
+    return JsonResponse(res, status=201)
