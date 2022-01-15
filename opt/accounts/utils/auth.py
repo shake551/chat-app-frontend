@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import time
 import jwt
 import hashlib
+import json
 
 from ..models import User
 
@@ -31,8 +32,9 @@ def generate_token(user_query, setting_time):
 """ログインできた場合 access token を返す"""
 class NormalAuthentication(BaseAuthentication):
     def authenticate(self, request):
-        name = request.POST['name']
-        password = request.POST['password']
+        res = json.loads(request.body.decode('utf-8'))
+        name = res['name']
+        password = res['password']
         user_query = User.objects.get(name=name)
         
         if not user_query:

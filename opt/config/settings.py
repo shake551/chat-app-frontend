@@ -146,3 +146,10 @@ CHANNEL_LAYERS = {
         'CONFIG': {'hosts':[('redis', 6379)],},
     },
 }
+
+INSTALLED_APPS += ['corsheaders']
+MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:5500',
+    'http://127.0.0.1:5500'
+)
