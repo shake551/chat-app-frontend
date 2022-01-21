@@ -90,3 +90,13 @@ class JWTAuthentication(BaseAuthentication):
         except:
             msg = "failed"
             raise exceptions.AuthenticationFailed(msg)
+
+
+# jwtからユーザーIDを取得する
+def obtain_id_from_jwt(request):
+    auth = get_authorization_header(request).split()
+    jwt_token = auth[1]
+    jwt_info = jwt.decode(jwt_token, SECRET_KEY)
+    user_id = jwt_info.get('userid')
+    
+    return user_id

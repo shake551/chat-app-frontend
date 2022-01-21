@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from django.db import transaction
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Room, RoomMessage
+from .models import Room, RoomMessage, RoomMember
 from .serializer import RoomSerializer, RoomMemberSerializer, RoomMessageSerializer
+
 import sys
 sys.path.append('../')
 from accounts.models import User
+from accounts.utils.auth import JWTAuthentication
+from accounts.utils.auth import obtain_id_from_jwt
 
 
 def index(request):
@@ -112,6 +116,32 @@ def obtain_all_rooms(request):
         rooms.append(tmp_room)
     res = {"rooms": rooms}
     return JsonResponse(res, status=201)
+
+
+# ログインユーザーの全room取得
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def obtain_user_rooms(request):
+    # jwtからユーザーIDを取得
+    user_id = obtain_id_from_jwt(request)
+    
+    # 所属しているroomがなければ空を返す
+    if not RoomMember.objects.filter(user_id=user_id):
+        return JsonResponse({"rooms": []}, status=201)
+    
+    user_rooms = RoomMember.objects.filter(user_id=user_id)
+
+    rooms = []
+    for user_room in user_rooms:
+        tmp_room = {
+            "room_id": user_room.room.id,
+            "room_name": user_room.room.name
+        }
+        rooms.append(tmp_room)
+    res = {"rooms": rooms}
+    return JsonResponse(res, status=201)
+
 
 # ルームのメッセージ取得
 @api_view(['GET'])
