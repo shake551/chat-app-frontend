@@ -12,6 +12,7 @@ import sys
 sys.path.append('../')
 from accounts.models import User
 from accounts.utils.auth import JWTAuthentication
+from accounts.utils.auth import obtain_id_from_jwt
 
 
 def index(request):
@@ -122,8 +123,8 @@ def obtain_all_rooms(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def obtain_user_rooms(request):
-    # クエリパラメーターからユーザーIDを取得
-    user_id = request.GET['user_id']
+    # jwtからユーザーIDを取得
+    user_id = obtain_id_from_jwt(request)
     
     # 所属しているroomがなければ空を返す
     if not RoomMember.objects.filter(user_id=user_id):
