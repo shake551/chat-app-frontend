@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 
+import UserRooms from './UserRooms';
+
 class LoginUser extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +35,7 @@ class LoginUser extends React.Component {
       <div>
         <h1>User ID: {this.state.user_id}</h1>
         <h1>User Name: {this.state.user_name}</h1>
+        <UserRooms />
       </div>
     )
   }
