@@ -101,4 +101,10 @@ def loginApi(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def token(request):
-    return JsonResponse({"data":"token ok"}, status=200)
+    response = {
+        "user": {
+            "id": request.user.id,
+            "name": request.user.name,
+        }
+    }
+    return JsonResponse(response, status=200)
