@@ -23,6 +23,10 @@ const Message = () => {
     ]);
   }
 
+  chatSocket.onerror = function(event) {
+    window.location.reload();
+  }
+
   console.log(chatSocket);
 
   const header = {
