@@ -6,6 +6,7 @@ const Message = () => {
   const [value, setValue] = useState('');
 
   const roomName = window.location.pathname;
+  const roomId = roomName.split('/')[2];
 
   const chatSocket = new WebSocket(
     'ws://0.0.0.0:8000/ws'
@@ -24,6 +25,26 @@ const Message = () => {
 
   console.log(chatSocket);
 
+  const header = {
+    "Authorization": "jwt " + window.localStorage.getItem('access_token'),
+  }
+
+  useEffect(() => {
+    axios.get('http://0.0.0.0:8000/api/chat/room/' + roomId, {headers: header})
+      .then(res => {
+        let getMessages = [];
+        res.data.messages.map((data) => {
+          getMessages.push(data.message);
+        });
+
+        // getしたメッセージをデフォルトにする
+        setMessage(getMessages);
+      })
+      .catch(e => {
+        console.log(e.message);
+      })
+  }, [])
+
   const handleChange = (event) => {
     setValue(event.target.value);
   }
@@ -37,13 +58,10 @@ const Message = () => {
   const handleSubmit = (event) => {
     const jwt = window.localStorage.getItem('access_token');
     const decoded = decodeJwt(jwt);
-    const header = {
-      "Authorization": "jwt " + jwt,
-    }
 
     const data = {
       user_id: decoded.userid,
-      room_id: roomName.split('/')[2],
+      room_id: roomId,
       msg: value
     }
 
