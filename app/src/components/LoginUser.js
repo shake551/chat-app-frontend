@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 import UserRooms from './UserRooms';
+import userToken from './UserToken';
 
 class LoginUser extends React.Component {
   constructor(props) {
@@ -19,11 +20,15 @@ class LoginUser extends React.Component {
 
     axios.get('http://0.0.0.0:8000/api/accounts/token/', {headers: header})
       .then(res => {
-        console.log(res.data);
         this.setState({
           user_id: res.data.user.id,
           user_name: res.data.user.name,
         });
+
+        const success = userToken(res.data.token);
+        if (!success) {
+          throw new Error();
+        }
       })
       .catch(err => {
         window.location.href = '/login';
