@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 
+import userToken from './UserToken';
+
 class UserRooms extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,11 @@ class UserRooms extends React.Component {
         this.setState({
           rooms: res.data.rooms
         });
+
+        const success = userToken(res.data.token);
+        if (!success) {
+          throw new Error();
+        }
       })
       .catch(err => {
         // window.location.href = '/login';

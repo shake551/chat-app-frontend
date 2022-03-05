@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import userToken from '../UserToken';
+
 const Message = () => {
   const [messages, setMessage] = useState([]);
   const [value, setValue] = useState('');
@@ -43,6 +45,11 @@ const Message = () => {
 
         // getしたメッセージをデフォルトにする
         setMessage(getMessages);
+
+        const success = userToken(res.data.token);
+        if (!success) {
+          throw new Error();
+        }
       })
       .catch(e => {
         console.log(e.message);
