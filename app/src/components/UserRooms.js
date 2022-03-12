@@ -1,5 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom';
+
+import userToken from './UserToken';
 
 class UserRooms extends React.Component {
   constructor(props) {
@@ -20,6 +23,11 @@ class UserRooms extends React.Component {
         this.setState({
           rooms: res.data.rooms
         });
+
+        const success = userToken(res.data.token);
+        if (!success) {
+          throw new Error();
+        }
       })
       .catch(err => {
         // window.location.href = '/login';
@@ -38,7 +46,11 @@ class UserRooms extends React.Component {
         room一覧
         <ul>
           {this.state.rooms.map((room) => (
-            <li key={room.room_id}>{room.room_name}</li>
+            <li key={room.room_id}>
+              <Link to={'/chat/' + room.room_id}>
+              {room.room_name}
+              </Link>
+            </li>
           ))}
         </ul>
       </h3>
