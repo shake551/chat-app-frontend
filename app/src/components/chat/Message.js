@@ -51,8 +51,10 @@ const Message = () => {
           throw new Error();
         }
       })
-      .catch(e => {
-        console.log(e.message);
+      .catch(err => {
+        if (err.response.status == 403) {
+          window.location.href = '/login';
+        }
       })
   }, [])
 
