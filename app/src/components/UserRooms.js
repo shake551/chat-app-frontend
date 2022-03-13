@@ -30,8 +30,9 @@ class UserRooms extends React.Component {
         }
       })
       .catch(err => {
-        // window.location.href = '/login';
-        console.log('error')
+        if (err.response.status == 403) {
+          window.location.href = '/login';
+        }
       })
   }
 
