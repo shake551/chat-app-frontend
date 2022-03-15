@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import userToken from '../UserToken';
+import UserRoomsLink from '../UserRoomsLink';
 
 const Message = () => {
   const [messages, setMessage] = useState([]);
@@ -121,6 +122,7 @@ const Message = () => {
           <li key={i}>{message[0]} [ {message[1]} ]</li>
         ))}
       </ul>
+      <UserRoomsLink />
     </div>
   )
 }
