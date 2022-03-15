@@ -21,7 +21,7 @@ const Message = () => {
     console.log(data);
     setMessage([
       ...messages,
-      data.message
+      [data.message, data.send_user]
     ]);
   }
 
@@ -40,7 +40,7 @@ const Message = () => {
       .then(res => {
         let getMessages = [];
         res.data.messages.map((data) => {
-          getMessages.push(data.message);
+          getMessages.push([data.message, data.send_user]);
         });
 
         // getしたメッセージをデフォルトにする
@@ -86,13 +86,14 @@ const Message = () => {
 
     setMessage([
       ...messages,
-      value
+      [value, decoded.name]
     ]);
+    console.log(messages);
 
     try {
-      console.log('try')
       chatSocket.send(JSON.stringify({
-        'message': value
+        'message': value,
+        'send_user': decoded.name
       }));
     }
     catch(e) {
@@ -117,7 +118,7 @@ const Message = () => {
           </form>
       <ul>
         {messages.map((message, i) => (
-          <li key={i}>{message}</li>
+          <li key={i}>{message[0]} [ {message[1]} ]</li>
         ))}
       </ul>
     </div>
