@@ -31,7 +31,9 @@ class LoginUser extends React.Component {
         }
       })
       .catch(err => {
-        window.location.href = '/login';
+        if (err.response.status == 403) {
+          window.location.href = '/login';
+        }
       })
   }
 
