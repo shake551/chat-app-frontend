@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import userToken from '../UserToken';
 
-function CreateRoom() {
+function AllUsers() {
   const [users, setUsers] = useState([]);
 
   const header = {
@@ -29,7 +29,6 @@ function CreateRoom() {
 
   return (
     <div>
-      <h1>トークルーム作成</h1>
       <ul>
         { users.map((user, i) => (
           <li key={i}>{ user.id } { user.name }</li>
@@ -39,4 +38,4 @@ function CreateRoom() {
   )
 }
 
-export default CreateRoom;
+export default AllUsers;
