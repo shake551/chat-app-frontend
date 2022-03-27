@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 
 import UserRooms from './UserRooms';
 import userToken from './UserToken';
@@ -42,6 +43,9 @@ class LoginUser extends React.Component {
       <div>
         <h1>User ID: {this.state.user_id}</h1>
         <h1>User Name: {this.state.user_name}</h1>
+        <h3>
+          <Link to={'/room/create'}>Create New Room!</Link>
+        </h3>
         <UserRooms />
       </div>
     )
