@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import userToken from '../UserToken';
 import DecodeJwt from '../../util/DecodeJwt'
+import UserRoomsLink from '../UserRoomsLink';
 
 function SelectNewRoom() {
   const [users, setUsers] = useState([]);
@@ -63,6 +64,7 @@ function SelectNewRoom() {
   return (
     <div>
       <h1>トークルーム作成</h1>
+      <UserRoomsLink />
       <ul>
         {users.map((user, i) => (
           <li key={i}>
