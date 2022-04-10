@@ -3,7 +3,8 @@ import axios from 'axios';
 
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
-import DecodeJwt from '../../util/DecodeJwt'
+import DecodeJwt from '../../util/DecodeJwt';
+import MessageItem from './MessageItem';
 
 const MessageList = () => {
   const [messages, setMessage] = useState([]);
@@ -114,11 +115,13 @@ const MessageList = () => {
             </label>
             <input type="submit" value="Submit" />
           </form>
-      <ul>
         {messages.map((message, i) => (
-          <li key={i}>{message[0]} [ {message[1]} ]</li>
+            <MessageItem
+                key = {i}
+                message = {message[0]}
+                send_by = {message[1]}
+            />
         ))}
-      </ul>
       <UserRoomsLink />
     </div>
   )
