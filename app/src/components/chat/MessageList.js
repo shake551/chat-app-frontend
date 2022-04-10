@@ -7,16 +7,26 @@ import UserRoomsLink from '../UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
 
+const Header = styled.div`
+  background-color: #FAC46F;
+  width: 100%;
+  padding: 3vh 0;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+`;
+
 const MessageArea = styled.div`
   padding: 3px;
   margin: 10px;
-  height: 90vh;
+  height: 80vh;
   overflow: scroll;
 `;
 
 const MessageList = () => {
   const [messages, setMessage] = useState([]);
   const [value, setValue] = useState('');
+  const [room, setRoom] = useState('');
 
   const roomName = window.location.pathname;
   const roomId = roomName.split('/')[2];
@@ -56,6 +66,11 @@ const MessageList = () => {
 
         // getしたメッセージをデフォルトにする
         setMessage(getMessages);
+
+        setRoom({
+          'id': res.data.room.room_id,
+          'name': res.data.room.name
+        })
 
         const success = userToken(res.data.token);
         if (!success) {
@@ -112,6 +127,9 @@ const MessageList = () => {
 
   return (
     <div>
+      <Header>
+        { room.name }
+      </Header>
       <form onSubmit={handleSubmit}>
             <label>
               Message:
