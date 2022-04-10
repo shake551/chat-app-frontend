@@ -7,7 +7,7 @@ import SignupComplete from './components/signup/SignupComplete';
 import VerifyUser from './components/signup/VerifyUser';
 import LoginForm from './components/LoginForm';
 import LoginUser from './components/LoginUser';
-import Message from './components/chat/Message';
+import MessageList from './components/chat/MessageList';
 import NotFound from './components/NotFound';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/verify/*" element={<VerifyUser />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/user" element={<LoginUser />} />
-        <Route path="/chat/*" element={<Message />} />
+        <Route path="/chat/*" element={<MessageList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

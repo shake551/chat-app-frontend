@@ -4,7 +4,7 @@ import axios from 'axios';
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
 
-const Message = () => {
+const MessageList = () => {
   const [messages, setMessage] = useState([]);
   const [value, setValue] = useState('');
 
@@ -129,4 +129,4 @@ const Message = () => {
   )
 }
 
-export default Message;
+export default MessageList;
