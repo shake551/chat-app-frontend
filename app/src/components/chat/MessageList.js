@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styled from "styled-components"
 
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
+
+const MessageArea = styled.div`
+  padding: 3px;
+  margin: 10px;
+  height: 90vh;
+  overflow: scroll;
+`;
 
 const MessageList = () => {
   const [messages, setMessage] = useState([]);
@@ -115,6 +123,7 @@ const MessageList = () => {
             </label>
             <input type="submit" value="Submit" />
           </form>
+      <MessageArea>
         {messages.map((message, i) => (
             <MessageItem
                 key = {i}
@@ -122,6 +131,7 @@ const MessageList = () => {
                 send_by = {message[1]}
             />
         ))}
+      </MessageArea>
       <UserRoomsLink />
     </div>
   )
