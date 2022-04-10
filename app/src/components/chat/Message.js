@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
+import DecodeJwt from '../../util/DecodeJwt'
 
 const Message = () => {
   const [messages, setMessage] = useState([]);
@@ -63,15 +64,9 @@ const Message = () => {
     setValue(event.target.value);
   }
 
-  const decodeJwt = (token) => {                                        
-    const base64Url = token.split('.')[1];                             
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');    
-    return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
-  }; 
-
   const handleSubmit = (event) => {
     const jwt = window.localStorage.getItem('access_token');
-    const decoded = decodeJwt(jwt);
+    const decoded = DecodeJwt(jwt);
 
     const data = {
       user_id: decoded.userid,
