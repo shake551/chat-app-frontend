@@ -1,6 +1,9 @@
-FROM node:16.13.0-alpine3.12
+FROM node:16.13.0
 ENV NODE_VERSION 14.18.1
 WORKDIR /app
 EXPOSE 3000
 
+COPY app/package.json app/package-lock.json ../
+
+RUN npm install
 RUN npm install -g create-react-app
