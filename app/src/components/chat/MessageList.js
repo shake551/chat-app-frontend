@@ -19,8 +19,18 @@ const Header = styled.div`
 const MessageArea = styled.div`
   padding: 3px;
   margin: 10px;
-  height: 80vh;
+  height: 70vh;
   overflow: scroll;
+`;
+
+const MessageForm = styled.form`
+  text-align: center;
+`;
+
+const MessageTextArea = styled.textarea`
+  width: 60%;
+  border-radius: 15px;
+  padding: 10px;
 `;
 
 const MessageList = () => {
@@ -130,17 +140,6 @@ const MessageList = () => {
       <Header>
         { room.name }
       </Header>
-      <form onSubmit={handleSubmit}>
-            <label>
-              Message:
-              <input
-                name="message"
-                type="text"
-                value={value}
-                onChange={handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
       <MessageArea>
         {messages.map((message, i) => (
             <MessageItem
@@ -150,6 +149,14 @@ const MessageList = () => {
             />
         ))}
       </MessageArea>
+      <MessageForm onSubmit={handleSubmit}>
+          <MessageTextArea
+              name="message"
+              rows="1"
+              value={value}
+              onChange={handleChange} />
+        <input type="submit" value="Submit" />
+      </MessageForm>
       <UserRoomsLink />
     </div>
   )
