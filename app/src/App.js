@@ -6,7 +6,7 @@ import SignupForm from './components/signup/SignupForm';
 import SignupComplete from './components/signup/SignupComplete';
 import VerifyUser from './components/signup/VerifyUser';
 import LoginForm from './components/LoginForm';
-import LoginUser from './components/LoginUser';
+import UserHome from './components/UserHome';
 import UserProfile from "./components/UserProfile";
 import CreateNewRoom from './components/chat/CreateNewRoom';
 import MessageList from './components/chat/MessageList';
@@ -21,7 +21,7 @@ function App() {
                 <Route exact path="/complete" element={<SignupComplete/>}/>
                 <Route exact path="/verify/*" element={<VerifyUser/>}/>
                 <Route path="/login" element={<LoginForm/>}/>
-                <Route path="/user" element={<LoginUser/>}/>
+                <Route path="/user/home" element={<UserHome/>}/>
                 <Route path="/user/profile" element={<UserProfile/>}/>
                 <Route path="/room/create" element={<CreateNewRoom/>}/>
                 <Route path="/chat/*" element={<MessageList/>}/>

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import UserRooms from './UserRooms';
 import userToken from './UserToken';
 
-class LoginUser extends React.Component {
+class UserHome extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,4 +52,4 @@ class LoginUser extends React.Component {
     }
 }
 
-export default LoginUser;
+export default UserHome;
