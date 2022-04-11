@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import DecodeJwt from "../util/DecodeJwt";
+import DecodeJwt from "../../util/DecodeJwt";
 
 const UserProfile = () => {
     const [user, setUser] = useState('');
