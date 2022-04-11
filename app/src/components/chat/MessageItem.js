@@ -13,16 +13,23 @@ const MessageItemLeftWrapper = styled.div`
   margin-left: 10px;
 `;
 
-const MessageItemStyle = styled.div`
-  background-color: #faebd7;
+const MessageItemBaseStyle = styled.div`
   padding: 0.5em 1em;
   margin: 5px 0;
   font-weight: bold;
-  border: solid 3px #ffefd5;
-  border-radius: 10px;
+  border: solid 1px #000;
+  border-radius: 20px;
   display: inline-block;
   text-align: left;
   max-width: 200px;
+`;
+
+const MessageRightItemStyle = styled(MessageItemBaseStyle)`
+  background-color: #dcdcdc;
+`;
+
+const MessageLeftItemStyle = styled(MessageItemBaseStyle)`
+  background-color: #FFF;
 `;
 
 const MessageItem = (props) => {
@@ -32,17 +39,17 @@ const MessageItem = (props) => {
     if (props.send_by === decoded.name) {
         return (
             <MessageItemRightWrapper>
-                <MessageItemStyle>
+                <MessageRightItemStyle>
                     {props.message}
-                </MessageItemStyle>
+                </MessageRightItemStyle>
             </MessageItemRightWrapper>
         )
     } else {
         return (
             <MessageItemLeftWrapper>
-                <MessageItemStyle>
+                <MessageLeftItemStyle>
                     {props.message}
-                </MessageItemStyle>
+                </MessageLeftItemStyle>
             </MessageItemLeftWrapper>
         )
     }
