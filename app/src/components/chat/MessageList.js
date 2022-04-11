@@ -1,13 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styled from "styled-components";
+import { AiOutlineSend } from "react-icons/ai";
 
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
-import DecodeJwt from '../../util/DecodeJwt'
+import DecodeJwt from '../../util/DecodeJwt';
+import MessageItem from './MessageItem';
 
-const Message = () => {
+const Header = styled.div`
+  background-color: #FAC46F;
+  width: 100%;
+  padding: 3vh 0;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const MessageArea = styled.div`
+  padding: 3px;
+  margin: 10px;
+  height: 70vh;
+  overflow: scroll;
+`;
+
+const MessageForm = styled.form`
+  text-align: center;
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: space-around;
+`;
+
+const MessageTextArea = styled.textarea`
+  width: 75%;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 2vh 0 1vh 0;
+`;
+
+const SubmitButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 2vh 0 1vh 0;
+`;
+
+const MessageList = () => {
   const [messages, setMessage] = useState([]);
   const [value, setValue] = useState('');
+  const [room, setRoom] = useState('');
 
   const roomName = window.location.pathname;
   const roomId = roomName.split('/')[2];
@@ -47,6 +89,11 @@ const Message = () => {
 
         // getしたメッセージをデフォルトにする
         setMessage(getMessages);
+
+        setRoom({
+          'id': res.data.room.room_id,
+          'name': res.data.room.name
+        })
 
         const success = userToken(res.data.token);
         if (!success) {
@@ -103,25 +150,32 @@ const Message = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-            <label>
-              Message:
-              <input
-                name="message"
-                type="text"
-                value={value}
-                onChange={handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-      <ul>
+      <Header>
+        { room.name }
+      </Header>
+      <MessageArea>
         {messages.map((message, i) => (
-          <li key={i}>{message[0]} [ {message[1]} ]</li>
+            <MessageItem
+                key = {i}
+                message = {message[0]}
+                send_by = {message[1]}
+            />
         ))}
-      </ul>
+      </MessageArea>
+      <MessageForm onSubmit={handleSubmit}>
+          <MessageTextArea
+              name="message"
+              rows="1"
+              value={value}
+              onChange={handleChange} />
+
+          <SubmitButton type="submit">
+              <AiOutlineSend size="2.5em" />
+          </SubmitButton>
+      </MessageForm>
       <UserRoomsLink />
     </div>
   )
 }
 
-export default Message;
+export default MessageList;
