@@ -8,3 +8,4 @@ COPY app/package.json app/package-lock.json ../
 RUN npm install
 RUN npm install -g create-react-app
 RUN npm install styled-components
+RUN npm install react-icons --save
