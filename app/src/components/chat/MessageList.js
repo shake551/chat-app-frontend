@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styled from "styled-components"
+import styled from "styled-components";
+import { AiOutlineSend } from "react-icons/ai";
 
 import userToken from '../UserToken';
 import UserRoomsLink from '../UserRoomsLink';
@@ -25,12 +26,24 @@ const MessageArea = styled.div`
 
 const MessageForm = styled.form`
   text-align: center;
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: space-around;
 `;
 
 const MessageTextArea = styled.textarea`
-  width: 60%;
+  width: 75%;
   border-radius: 15px;
   padding: 10px;
+  margin: 2vh 0 1vh 0;
+`;
+
+const SubmitButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 2vh 0 1vh 0;
 `;
 
 const MessageList = () => {
@@ -155,7 +168,10 @@ const MessageList = () => {
               rows="1"
               value={value}
               onChange={handleChange} />
-        <input type="submit" value="Submit" />
+
+          <SubmitButton type="submit">
+              <AiOutlineSend size="2.5em" />
+          </SubmitButton>
       </MessageForm>
       <UserRoomsLink />
     </div>
