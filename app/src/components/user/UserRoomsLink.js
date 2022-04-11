@@ -10,7 +10,7 @@ function UserRoomsLink() {
 
     return (
         <div>
-            <UserLink to='/user'>
+            <UserLink to='/user/home'>
                 <AiOutlineLeft size="2em"/>
             </UserLink>
         </div>
