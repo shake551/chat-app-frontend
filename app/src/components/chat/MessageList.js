@@ -27,7 +27,7 @@ const MessageArea = styled.div`
 const MessageForm = styled.form`
   text-align: center;
   width: 100%;
-  height: 10vh;
+  height: 8vh;
   display: flex;
   justify-content: space-around;
 `;
@@ -36,14 +36,14 @@ const MessageTextArea = styled.textarea`
   width: 75%;
   border-radius: 15px;
   padding: 10px;
-  margin: 3vh 0;
+  margin: 2vh 0 1vh 0;
 `;
 
 const SubmitButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  margin: 3vh 0;
+  margin: 2vh 0 1vh 0;
 `;
 
 const MessageList = () => {
