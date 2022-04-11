@@ -47,6 +47,7 @@ class UserHome extends React.Component {
                     <Link to={'/room/create'}>Create New Room!</Link>
                 </h3>
                 <UserRooms/>
+                <Link to='/user/profile'>プロフィール</Link>
             </div>
         )
     }

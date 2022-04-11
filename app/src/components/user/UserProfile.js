@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from "react-router-dom";
 
 import DecodeJwt from "../../util/DecodeJwt";
 
@@ -19,6 +20,8 @@ const UserProfile = () => {
         <div>
             <h1>User ID: {user.id}</h1>
             <h1>User Name: {user.name}</h1>
+
+            <Link to='/user/home'>ホーム</Link>
         </div>
     )
 }
