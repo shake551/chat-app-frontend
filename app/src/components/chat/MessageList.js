@@ -65,7 +65,7 @@ const MessageList = () => {
         console.log(data);
         setMessage([
             ...messages,
-            [data.message, data.send_user]
+            [data.message, data.user]
         ]);
     }
 
@@ -84,7 +84,7 @@ const MessageList = () => {
             .then(res => {
                 let getMessages = [];
                 res.data.messages.map((data) => {
-                    getMessages.push([data.message, data.send_user]);
+                    getMessages.push([data.message, data.user]);
                 });
 
                 // getしたメッセージをデフォルトにする
@@ -118,7 +118,7 @@ const MessageList = () => {
         const data = {
             user_id: decoded.userid,
             room_id: roomId,
-            msg: value
+            message: value
         }
 
         axios.post('http://0.0.0.0:8000/api/chat/post/', data, {headers: header})
@@ -138,7 +138,7 @@ const MessageList = () => {
         try {
             chatSocket.send(JSON.stringify({
                 'message': value,
-                'send_user': decoded.name
+                'user': decoded.name
             }));
         } catch (e) {
             console.log(e)
