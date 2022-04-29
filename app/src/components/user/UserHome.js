@@ -7,8 +7,7 @@ import userToken from './UserToken';
 import UserFooter from "./UserFooter";
 
 const UserHome = () => {
-    const [user_id, setUserId] = useState('')
-    const [user_name, setUserName] = useState('')
+    const [user, setUser] = useState('')
 
     useEffect(() => {
         const header = {
@@ -17,8 +16,10 @@ const UserHome = () => {
 
         axios.get('http://0.0.0.0:8000/api/accounts/token/', {headers: header})
             .then(res => {
-                setUserId(res.data.user.id);
-                setUserName(res.data.user.name);
+                setUser({
+                    id: res.data.user.id,
+                    name: res.data.user.name
+                });
 
                 const success = userToken(res.data.token);
                 if (!success) {
@@ -34,8 +35,8 @@ const UserHome = () => {
 
     return (
         <div>
-            <h1>User ID: {user_id}</h1>
-            <h1>User Name: {user_name}</h1>
+            <h1>User ID: {user.user_id}</h1>
+            <h1>User Name: {user.user_name}</h1>
             <h3>
                 <Link to={'/room/create'}>Create New Room!</Link>
             </h3>
