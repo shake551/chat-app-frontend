@@ -23,7 +23,7 @@ const UserFooter = (props) => {
         return (
             <UserFooterStyle>
                 <LinkIcon to={'/user/profile'}>
-                    <FaRegUserCircle/>
+                    <FaRegUserCircle size={'3em'}/>
                 </LinkIcon>
                 <AiFillMessage size={'3em'}/>
             </UserFooterStyle>
