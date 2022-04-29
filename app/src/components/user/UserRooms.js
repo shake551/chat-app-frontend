@@ -29,7 +29,7 @@ const UserRooms = () => {
             })
     }, []);
 
-    if (this.state.rooms.length === 0) {
+    if (rooms.length === 0) {
         return (
             <h3>所属しているroomはありません</h3>
         )
