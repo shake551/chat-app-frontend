@@ -5,29 +5,29 @@ import {Link} from 'react-router-dom';
 import userToken from './UserToken';
 
 const UserRooms = () => {
-  const [rooms, setRoom] = useState([]);
+    const [rooms, setRoom] = useState([]);
 
-  useEffect(() => {
-      const header = {
-          "Authorization": "jwt " + window.localStorage.getItem('access_token'),
-      }
+    useEffect(() => {
+        const header = {
+            "Authorization": "jwt " + window.localStorage.getItem('access_token'),
+        }
 
-      axios.get('http://0.0.0.0:8000/api/chat/user_rooms/', {headers: header})
-          .then(res => {
-              console.log(res.data);
-              setRoom(res.data.rooms);
+        axios.get('http://0.0.0.0:8000/api/chat/user_rooms/', {headers: header})
+            .then(res => {
+                console.log(res.data);
+                setRoom(res.data.rooms);
 
-              const success = userToken(res.data.token);
-              if (!success) {
-                  throw new Error();
-              }
-          })
-          .catch(err => {
-              if (err.response.status === 403) {
-                  window.location.href = '/login';
-              }
-          })
-  }, []);
+                const success = userToken(res.data.token);
+                if (!success) {
+                    throw new Error();
+                }
+            })
+            .catch(err => {
+                if (err.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            })
+    }, []);
 
     if (this.state.rooms.length === 0) {
         return (
