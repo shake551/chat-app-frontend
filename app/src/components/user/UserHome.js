@@ -31,7 +31,7 @@ const UserHome = () => {
                     window.location.href = '/login';
                 }
             })
-    })
+    }, [])
 
     return (
         <div>
