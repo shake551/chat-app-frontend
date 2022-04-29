@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 
 import UserRooms from './UserRooms';
 import userToken from './UserToken';
+import UserFooter from "./UserFooter";
 
 class UserHome extends React.Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class UserHome extends React.Component {
                     <Link to={'/room/create'}>Create New Room!</Link>
                 </h3>
                 <UserRooms/>
-                <Link to='/user/profile'>プロフィール</Link>
+                <UserFooter page={'home'}/>
             </div>
         )
     }
