@@ -35,8 +35,8 @@ const UserHome = () => {
 
     return (
         <div>
-            <h1>User ID: {user.user_id}</h1>
-            <h1>User Name: {user.user_name}</h1>
+            <h1>User ID: {user.id}</h1>
+            <h1>User Name: {user.name}</h1>
             <h3>
                 <Link to={'/room/create'}>Create New Room!</Link>
             </h3>
