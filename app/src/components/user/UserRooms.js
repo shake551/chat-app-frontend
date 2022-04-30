@@ -64,7 +64,6 @@ const UserRooms = () => {
             <RoomLink to={'/room/create'} key={'new'}>
                 <RoomLinkButton>
                     <RoomLinkElement>
-
                         <AiOutlinePlus size={'3em'}/>
                     </RoomLinkElement>
                 </RoomLinkButton>
