@@ -3,8 +3,8 @@ import axios from 'axios';
 import styled from "styled-components";
 import {AiOutlineSend} from "react-icons/ai";
 
-import userToken from '../UserToken';
-import UserRoomsLink from '../UserRoomsLink';
+import userToken from '../user/UserToken';
+import UserRoomsLink from '../user/UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
 
