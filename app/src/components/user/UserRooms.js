@@ -9,6 +9,8 @@ import userToken from './UserToken';
 const RoomLinkWrapper = styled.div`
   text-align: center;
   width: 100%;
+  height: 85vh;
+  overflow-y: scroll;
 `;
 
 const RoomLink = styled(Link)`
