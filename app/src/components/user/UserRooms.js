@@ -57,11 +57,6 @@ const UserRooms = () => {
             })
     }, []);
 
-    if (rooms.length === 0) {
-        return (
-            <h3>所属しているroomはありません</h3>
-        )
-    }
     return (
         <RoomLinkWrapper>
             <RoomLink to={'/room/create'} key={'new'}>
