@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-import userToken from '../UserToken';
+import userToken from '../user/UserToken';
 import DecodeJwt from '../../util/DecodeJwt';
-import UserRoomsLink from '../UserRoomsLink';
+import UserRoomsLink from '../user/UserRoomsLink';
 
 function SelectNewRoom() {
     const [users, setUsers] = useState([]);

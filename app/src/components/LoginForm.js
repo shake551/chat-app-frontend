@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
                 window.localStorage.setItem('access_token', res.data.token.access_token);
 
                 // 画面遷移
-                window.location.href = '/user';
+                window.location.href = '/user/home';
             })
             .catch(err => {
                 this.setState({
