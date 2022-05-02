@@ -1,18 +1,43 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import styled from "styled-components";
+import {AiOutlinePlus} from "react-icons/ai";
 
 import userToken from './UserToken';
 
-class UserRooms extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            rooms: [],
-        }
-    }
+const RoomLinkWrapper = styled.div`
+  text-align: center;
+  width: 100%;
+  height: 85vh;
+  overflow-y: scroll;
+`;
 
-    componentDidMount() {
+const RoomLink = styled(Link)`
+  display: inline-flex;
+  vertical-align: top;
+  text-decoration: none;
+`;
+
+const RoomLinkButton = styled.button`
+  display: table;
+  background-color: #fff;
+  border-color: #000;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  padding: 0;
+`;
+
+const RoomLinkElement = styled.div`
+  font-size: 20px;
+`;
+
+const UserRooms = () => {
+    const [rooms, setRoom] = useState([]);
+
+    useEffect(() => {
         const header = {
             "Authorization": "jwt " + window.localStorage.getItem('access_token'),
         }
@@ -20,9 +45,7 @@ class UserRooms extends React.Component {
         axios.get('http://0.0.0.0:8000/api/chat/user_rooms/', {headers: header})
             .then(res => {
                 console.log(res.data);
-                this.setState({
-                    rooms: res.data.rooms
-                });
+                setRoom(res.data.rooms);
 
                 const success = userToken(res.data.token);
                 if (!success) {
@@ -34,29 +57,28 @@ class UserRooms extends React.Component {
                     window.location.href = '/login';
                 }
             })
-    }
+    }, []);
 
-    render() {
-        if (this.state.rooms.length === 0) {
-            return (
-                <h3>所属しているroomはありません</h3>
-            )
-        }
-        return (
-            <h3>
-                room一覧
-                <ul>
-                    {this.state.rooms.map((room) => (
-                        <li key={room.room_id}>
-                            <Link to={'/chat/' + room.room_id}>
-                                {room.room_name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </h3>
-        )
-    }
+    return (
+        <RoomLinkWrapper>
+            <RoomLink to={'/room/create'} key={'new'}>
+                <RoomLinkButton>
+                    <RoomLinkElement>
+                        <AiOutlinePlus size={'3em'}/>
+                    </RoomLinkElement>
+                </RoomLinkButton>
+            </RoomLink>
+            {rooms.map((room) => (
+                <RoomLink to={'/chat/' + room.room_id} key={room.room_id}>
+                    <RoomLinkButton>
+                        <RoomLinkElement>
+                            {room.room_name}
+                        </RoomLinkElement>
+                    </RoomLinkButton>
+                </RoomLink>
+            ))}
+        </RoomLinkWrapper>
+    )
 }
 
 export default UserRooms;
