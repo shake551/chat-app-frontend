@@ -1,7 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from "react-router-dom";
+import styled from "styled-components";
 
 import DecodeJwt from "../../util/DecodeJwt";
+import UserFooter from "./UserFooter";
+
+const ProfileWrapper = styled.div`
+  text-align: center;
+`;
+
+const Profile = styled.img`
+  width: 50vw;
+`;
+
+const UserName = styled.h1`
+  text-align: center;
+  font-size: 50px;
+`;
+
+const UserId = styled.h1`
+  text-align: center;
+`;
 
 const UserProfile = () => {
     const [user, setUser] = useState('');
@@ -18,10 +36,13 @@ const UserProfile = () => {
 
     return (
         <div>
-            <h1>User ID: {user.id}</h1>
-            <h1>User Name: {user.name}</h1>
+            <ProfileWrapper>
+                <Profile src={`${process.env.PUBLIC_URL}/profile.png`} alt="profile"/>
+            </ProfileWrapper>
+            <UserName>{user.name}</UserName>
+            <UserId>User ID: {user.id}</UserId>
 
-            <Link to='/user/home'>ホーム</Link>
+            <UserFooter page={'profile'}/>
         </div>
     )
 }
