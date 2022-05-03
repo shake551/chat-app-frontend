@@ -5,7 +5,7 @@ import Home from './components/Home';
 import SignupForm from './components/signup/SignupForm';
 import SignupComplete from './components/signup/SignupComplete';
 import VerifyUser from './components/signup/VerifyUser';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/login/LoginForm';
 import UserHome from './components/user/UserHome';
 import UserProfile from "./components/user/UserProfile";
 import CreateNewRoom from './components/chat/CreateNewRoom';
