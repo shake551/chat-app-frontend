@@ -19,6 +19,12 @@ const LoginForm = () => {
     }
 
     const handleSubmit = (event) => {
+        if (!loginForm.name || !loginForm.password) {
+            setError(1);
+            event.preventDefault();
+            return;
+        }
+
         axios.post('http://0.0.0.0:8000/api/accounts/login/', loginForm)
             .then(res => {
                 const success = userToken(res.data.token);
