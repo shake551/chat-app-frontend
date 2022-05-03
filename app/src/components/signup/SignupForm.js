@@ -19,6 +19,12 @@ const SignupForm = () => {
     }
 
     const handleSubmit = (event) => {
+        if (!signupForm.name || !signupForm.email || !signupForm.password) {
+            setError(1);
+            event.preventDefault();
+            return;
+        }
+
         axios.post('http://0.0.0.0:8000/api/accounts/pre_signup/', signupForm)
             .then(res => {
                 window.location.href = '/complete';
