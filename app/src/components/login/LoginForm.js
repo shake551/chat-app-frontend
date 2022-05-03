@@ -1,15 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-function LoginError(props) {
-    if (props.error) {
-        return (
-            <h3>ログインに失敗しました</h3>
-        );
-    } else {
-        return (<div/>);
-    }
-}
+import LoginError from "./LoginError";
 
 class LoginForm extends React.Component {
     constructor(props) {
