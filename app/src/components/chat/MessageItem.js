@@ -22,6 +22,7 @@ const MessageItemBaseStyle = styled.div`
   display: inline-block;
   text-align: left;
   max-width: 200px;
+  white-space: pre-line;
 `;
 
 const MessageRightItemStyle = styled(MessageItemBaseStyle)`
