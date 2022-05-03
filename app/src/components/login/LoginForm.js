@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 import axios from 'axios';
 
-import SignupError from './SignupError';
+import LoginError from "./LoginError";
+import userToken from "../user/UserToken";
 
-const SignupForm = () => {
-    const [signupForm, setForm] = useState({
+const LoginForm = () => {
+    const [loginForm, setForm] = useState({
         name: '',
-        email: '',
         password: ''
     });
     const [error, setError] = useState(0);
@@ -15,25 +15,30 @@ const SignupForm = () => {
         const area_name = event.target.name;
         const value = event.target.value;
 
-        setForm({...signupForm, [area_name]: value});
+        setForm({...loginForm, [area_name]: value});
     }
 
     const handleSubmit = (event) => {
-        if (!signupForm.name || !signupForm.email || !signupForm.password) {
+        if (!loginForm.name || !loginForm.password) {
             setError(1);
             event.preventDefault();
             return;
         }
 
-        axios.post('http://0.0.0.0:8000/api/accounts/pre_signup/', signupForm)
+        axios.post('http://0.0.0.0:8000/api/accounts/login/', loginForm)
             .then(res => {
-                window.location.href = '/complete';
+                const success = userToken(res.data.token);
+                if (!success) {
+                    throw new Error();
+                }
+
+                // 画面遷移
+                window.location.href = '/user/home';
             })
             .catch(err => {
                 setError(1);
                 setForm({
                     name: '',
-                    email: '',
                     password: ''
                 });
             })
@@ -41,24 +46,15 @@ const SignupForm = () => {
     }
 
     return (
-        <><SignupError
+        <><LoginError
             error={error}/>
-            <form onSubmit={(event) => handleSubmit(event)}>
+            <form onSubmit={(event ) => handleSubmit(event)}>
                 <label>
                     Name:
                     <input
                         name="name"
                         type="text"
-                        value={signupForm.name}
-                        onChange={(event) => handleChange(event)}/>
-                </label>
-                <br/>
-                <label>
-                    Email:
-                    <input
-                        name="email"
-                        type="email"
-                        value={signupForm.email}
+                        value={loginForm.name}
                         onChange={(event) => handleChange(event)}/>
                 </label>
                 <br/>
@@ -67,7 +63,7 @@ const SignupForm = () => {
                     <input
                         name="password"
                         type="text"
-                        value={signupForm.password}
+                        value={loginForm.password}
                         onChange={(event) => handleChange(event)}/>
                 </label>
                 <input type="submit" value="Submit"/>
@@ -76,4 +72,4 @@ const SignupForm = () => {
     );
 }
 
-export default SignupForm;
+export default LoginForm;
