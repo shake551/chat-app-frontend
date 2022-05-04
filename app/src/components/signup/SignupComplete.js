@@ -6,7 +6,7 @@ const CompleteMessage = styled.p`
   line-height: 2;
 `;
 
-function SignupComplete() {
+const SignupComplete = () => {
     return (
         <div>
             <CompleteMessage>
