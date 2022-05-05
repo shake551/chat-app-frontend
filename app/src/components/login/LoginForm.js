@@ -1,8 +1,53 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import styled from "styled-components";
 
 import LoginError from "./LoginError";
 import userToken from "../user/UserToken";
+
+const LoginFormArea = styled.form`
+  text-align: center;
+`;
+
+const ButtonArea = styled.div`
+  margin-top: 40px;
+`;
+
+const InputArea = styled.input`
+  width: 60%;
+  border-radius: 30px;
+  padding: 10px;
+  margin: 2vh 0;
+  font-size: 30px;
+  text-align: center;
+  border: 1px solid #707070;
+`;
+
+const LoginButton = styled.input`
+  width: 65%;
+  border-radius: 30px;
+  padding: 15px 20px;
+  font-size: 30px;
+  background-color: #fff;
+  color: #707070;
+  border: 1px solid #707070;
+`;
+
+const HomeLink = styled(Link)`
+  width: 65%;
+`;
+
+const HomeLinkButton = styled.button`
+  width: 65%;
+  border-radius: 30px;
+  padding: 15px 20px;
+  font-size: 30px;
+  background-color: #707070;
+  color: #fff;
+  border: 1px solid #fff;
+  margin: 20px;
+`;
 
 const LoginForm = () => {
     const [loginForm, setForm] = useState({
@@ -48,26 +93,35 @@ const LoginForm = () => {
     return (
         <><LoginError
             error={error}/>
-            <form onSubmit={(event ) => handleSubmit(event)}>
+            <LoginFormArea onSubmit={(event) => handleSubmit(event)}>
                 <label>
-                    Name:
-                    <input
+                    <InputArea
                         name="name"
                         type="text"
+                        placeholder="Name"
                         value={loginForm.name}
                         onChange={(event) => handleChange(event)}/>
                 </label>
                 <br/>
                 <label>
-                    Password:
-                    <input
+                    <InputArea
                         name="password"
                         type="text"
+                        placeholder="Password"
                         value={loginForm.password}
                         onChange={(event) => handleChange(event)}/>
                 </label>
-                <input type="submit" value="Submit"/>
-            </form>
+                <br/>
+                <ButtonArea>
+                    <LoginButton type="submit" value="Login"/>
+                    <br/>
+                    <HomeLink to={'/'}>
+                        <HomeLinkButton>
+                            Back
+                        </HomeLinkButton>
+                    </HomeLink>
+                </ButtonArea>
+            </LoginFormArea>
         </>
     );
 }
