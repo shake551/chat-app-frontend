@@ -3,19 +3,6 @@ import styled from "styled-components";
 
 import HomeBase from "./HomeBase";
 
-const TitleWrapper = styled.div`
-  text-align: center;
-`;
-
-const Title = styled.h1`
-  color: #707070;
-  font-size: 60px;
-`;
-
-const FlowerElement = styled.span`
-  color: #fac46f;
-`;
-
 const ButtonArea = styled.div`
   margin-top: 100px;
   text-align: center;
@@ -49,11 +36,6 @@ function Home() {
     return (
         <div>
             <HomeBase/>
-            <TitleWrapper>
-                <Title>
-                    <FlowerElement>ハナ</FlowerElement>ス
-                </Title>
-            </TitleWrapper>
             <ButtonArea>
                 <LinkBase to={'/signup'}>
                     <SignupButton>
