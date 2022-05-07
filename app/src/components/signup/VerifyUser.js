@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import styled from "styled-components";
+import HomeBase from "../HomeBase";
 
 const VerifyWrapper = styled.div`
   text-align: center;
@@ -66,12 +67,36 @@ const VerifyUser = () => {
 
     if (isError) {
         return (
+            <div>
+                <HomeBase/>
+                <VerifyWrapper>
+                    <Message>本登録できませんでした</Message>
+                    <ButtonArea>
+                        <LinkButton to={'/signup'}>
+                            <LoginButton>
+                                Sign Up
+                            </LoginButton>
+                        </LinkButton>
+                        <LinkButton to={'/'}>
+                            <HomeLinkButton>
+                                Home
+                            </HomeLinkButton>
+                        </LinkButton>
+                    </ButtonArea>
+                </VerifyWrapper>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <HomeBase/>
             <VerifyWrapper>
-                <Message>本登録できませんでした</Message>
+                <Message>本登録が完了しました</Message>
                 <ButtonArea>
                     <LinkButton to={'/login'}>
                         <LoginButton>
-                            Sign Up
+                            Login
                         </LoginButton>
                     </LinkButton>
                     <LinkButton to={'/'}>
@@ -81,25 +106,7 @@ const VerifyUser = () => {
                     </LinkButton>
                 </ButtonArea>
             </VerifyWrapper>
-        );
-    }
-
-    return (
-        <VerifyWrapper>
-            <Message>本登録が完了しました</Message>
-            <ButtonArea>
-                <LinkButton to={'/login'}>
-                    <LoginButton>
-                        Login
-                    </LoginButton>
-                </LinkButton>
-                <LinkButton to={'/'}>
-                    <HomeLinkButton>
-                        Home
-                    </HomeLinkButton>
-                </LinkButton>
-            </ButtonArea>
-        </VerifyWrapper>
+        </div>
     )
 }
 

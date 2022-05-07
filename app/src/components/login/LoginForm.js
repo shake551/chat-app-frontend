@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import LoginError from "./LoginError";
 import userToken from "../user/UserToken";
+import HomeBase from "../HomeBase";
 
 const LoginFormArea = styled.form`
   text-align: center;
@@ -18,7 +19,7 @@ const InputArea = styled.input`
   width: 60%;
   border-radius: 30px;
   padding: 10px;
-  margin: 2vh 0;
+  margin: 1vh 0;
   font-size: 30px;
   text-align: center;
   border: 1px solid #707070;
@@ -93,6 +94,9 @@ const LoginForm = () => {
     return (
         <><LoginError
             error={error}/>
+
+            <HomeBase/>
+
             <LoginFormArea onSubmit={(event) => handleSubmit(event)}>
                 <label>
                     <InputArea

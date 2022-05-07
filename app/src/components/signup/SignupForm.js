@@ -4,20 +4,21 @@ import {Link} from 'react-router-dom';
 import styled from "styled-components";
 
 import SignupError from './SignupError';
+import HomeBase from "../HomeBase";
 
 const SignupFormArea = styled.form`
   text-align: center;
 `;
 
 const ButtonArea = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
 `;
 
 const InputArea = styled.input`
   width: 60%;
   border-radius: 30px;
   padding: 10px;
-  margin: 2vh 0;
+  margin: 0.5vh 0;
   font-size: 30px;
   text-align: center;
   border: 1px solid #707070;
@@ -45,7 +46,7 @@ const HomeLinkButton = styled.button`
   background-color: #707070;
   color: #fff;
   border: 1px solid #fff;
-  margin: 20px;
+  margin: 10px;
 `;
 
 const SignupForm = () => {
@@ -88,6 +89,9 @@ const SignupForm = () => {
     return (
         <><SignupError
             error={error}/>
+
+            <HomeBase/>
+
             <SignupFormArea onSubmit={(event) => handleSubmit(event)}>
                 <label>
                     <InputArea
