@@ -1,9 +1,10 @@
 import {Link} from 'react-router-dom';
+import HomeBase from "./HomeBase";
 
 function Home() {
     return (
         <div>
-            <h1>Home</h1>
+            <HomeBase/>
             <Link to='/login'>Login</Link>
         </div>
     );
