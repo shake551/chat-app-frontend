@@ -5,7 +5,7 @@ const HomeWrapper = styled.div`
 `;
 
 const HomeImg = styled.img`
-  margin: 50px;
+  margin-top: 50px;
 `;
 
 const TitleWrapper = styled.div`
