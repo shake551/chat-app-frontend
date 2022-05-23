@@ -71,7 +71,7 @@ const SignupForm = () => {
             return;
         }
 
-        axios.post('http://0.0.0.0:8000/api/accounts/pre_signup/', signupForm)
+        axios.post(process.env.REACT_APP_API_DOMAIN + '/api/accounts/pre_signup/', signupForm)
             .then(res => {
                 window.location.href = '/complete';
             })

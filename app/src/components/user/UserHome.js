@@ -11,7 +11,7 @@ const UserHome = () => {
             "Authorization": "jwt " + window.localStorage.getItem('access_token'),
         }
 
-        axios.get('http://0.0.0.0:8000/api/accounts/token/', {headers: header})
+        axios.get(process.env.REACT_APP_API_DOMAIN + '/api/accounts/token/', {headers: header})
             .then(res => {
                 const success = userToken(res.data.token);
                 if (!success) {
