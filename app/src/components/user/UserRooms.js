@@ -42,7 +42,7 @@ const UserRooms = () => {
             "Authorization": "jwt " + window.localStorage.getItem('access_token'),
         }
 
-        axios.get('http://0.0.0.0:8000/api/chat/user_rooms/', {headers: header})
+        axios.get(process.env.REACT_APP_API_DOMAIN + '/api/chat/user_rooms/', {headers: header})
             .then(res => {
                 console.log(res.data);
                 setRoom(res.data.rooms);

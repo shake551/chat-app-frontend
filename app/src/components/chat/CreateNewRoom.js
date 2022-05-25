@@ -12,8 +12,10 @@ function SelectNewRoom() {
         "Authorization": "jwt " + window.localStorage.getItem('access_token'),
     }
 
+    const api_domain = process.env.REACT_APP_API_DOMAIN;
+
     useEffect(() => {
-        axios.get('http://0.0.0.0:8000/api/accounts/all_users/', {headers: header})
+        axios.get(api_domain + '/api/accounts/all_users/', {headers: header})
             .then(res => {
                 const success = userToken(res.data.token);
                 if (!success) {
@@ -43,7 +45,7 @@ function SelectNewRoom() {
             "Authorization": "jwt " + token,
         }
 
-        axios.post('http://0.0.0.0:8000/api/chat/new/', data, {headers: header})
+        axios.post(api_domain + '/api/chat/new/', data, {headers: header})
             .then(res => {
                 const success = userToken(res.data.token);
                 if (!success) {
