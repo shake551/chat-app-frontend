@@ -79,8 +79,10 @@ const MessageList = () => {
         "Authorization": "jwt " + window.localStorage.getItem('access_token'),
     }
 
+    const api_domain = process.env.REACT_APP_API_DOMAIN;
+
     useEffect(() => {
-        axios.get('http://0.0.0.0:8000/api/chat/room/' + roomId, {headers: header})
+        axios.get(api_domain + '/api/chat/room/' + roomId, {headers: header})
             .then(res => {
                 let getMessages = [];
                 res.data.messages.map((data) => {
@@ -121,7 +123,7 @@ const MessageList = () => {
             message: value
         }
 
-        axios.post('http://0.0.0.0:8000/api/chat/post/', data, {headers: header})
+        axios.post(api_domain + '/api/chat/post/', data, {headers: header})
             .then(res => {
                 console.log(res.data);
             })

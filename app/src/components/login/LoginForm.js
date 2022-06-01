@@ -71,7 +71,7 @@ const LoginForm = () => {
             return;
         }
 
-        axios.post('http://0.0.0.0:8000/api/accounts/login/', loginForm)
+        axios.post(process.env.REACT_APP_API_DOMAIN + '/api/accounts/login/', loginForm)
             .then(res => {
                 const success = userToken(res.data.token);
                 if (!success) {

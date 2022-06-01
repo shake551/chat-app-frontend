@@ -57,7 +57,7 @@ const VerifyUser = () => {
             }
         }
 
-        axios.get('http://0.0.0.0:8000/api/accounts/verify?token=' + token)
+        axios.get(process.env.REACT_APP_API_DOMAIN + '/api/accounts/verify?token=' + token)
             .then(() => {
             })
             .catch((err) => {
