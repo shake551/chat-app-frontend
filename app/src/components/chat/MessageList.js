@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from "styled-components";
-import {AiOutlineSend, AiOutlineReload} from "react-icons/ai";
+import {AiOutlineSend} from "react-icons/ai";
 
 import userToken from '../user/UserToken';
 import UserRoomsLink from '../user/UserRoomsLink';
