@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from "styled-components";
-import {AiOutlineSend} from "react-icons/ai";
+import {AiOutlineSend, AiOutlineReload} from "react-icons/ai";
 
 import userToken from '../user/UserToken';
 import UserRoomsLink from '../user/UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
+import useSWRInfinite from "swr/infinite";
+import LoadMessage from "./LoadMessage";
 
 const Header = styled.div`
   background-color: #FAC46F;
@@ -73,41 +75,53 @@ const MessageList = () => {
         window.location.reload();
     }
 
-    console.log(chatSocket);
-
     const header = {
         "Authorization": "jwt " + window.localStorage.getItem('access_token'),
     }
 
     const api_domain = process.env.REACT_APP_API_DOMAIN;
 
-    useEffect(() => {
-        axios.get(api_domain + '/api/chat/room/' + roomId, {headers: header})
-            .then(res => {
-                let getMessages = [];
-                res.data.messages.map((data) => {
-                    getMessages.push([data.message, data.user]);
-                });
+    const fetcher = (url) => axios.get(url, {headers: header})
+        .then(res => {
+            let getMessages = [];
+            res.data.messages.map((data) => {
+                getMessages.push([data.message, data.user]);
+            });
+            setMessage(getMessages.concat(messages));
 
-                // getしたメッセージをデフォルトにする
-                setMessage(getMessages);
-
-                setRoom({
-                    'id': res.data.room.room_id,
-                    'name': res.data.room.name
-                })
-
-                const success = userToken(res.data.token);
-                if (!success) {
-                    throw new Error();
-                }
+            setRoom({
+                'id': res.data.room.room_id,
+                'name': res.data.room.name
             })
-            .catch(err => {
-                if (err.response.status === 403) {
-                    window.location.href = '/login';
-                }
-            })
-    }, [])
+
+            const success = userToken(res.data.token);
+            if (!success) {
+                throw new Error();
+            }
+
+            return res.data.messages;
+        })
+        .catch(err => {
+            if (err.response.status === 403) {
+                window.location.href = '/login';
+            }
+        });
+
+    const LIMIT = 20;
+
+    const {data, error, mutate, size, setSize, isValidating} = useSWRInfinite(
+        (index) =>
+            `${api_domain}/api/chat/room/${roomId}?start=${index * 20}&size=${LIMIT}`,
+        fetcher
+    );
+
+    const isLoadingInitialData = !messages && !error;
+    const isLoadingMore =
+        isLoadingInitialData ||
+        (size > 0 && messages && typeof messages[size - 1] === "undefined");
+    const isEmpty = data?.[data.length-1]?.length === 0;
+    const isReachingEnd =
+        isEmpty || (messages && data?.[data.length-1]?.length < LIMIT);
 
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -155,6 +169,11 @@ const MessageList = () => {
                 {room.name}
             </Header>
             <MessageArea>
+                <LoadMessage
+                    isEnd={isReachingEnd}
+                    isLoading={isLoadingMore}
+                    click={() => setSize(size + 1)}
+                />
                 {messages.map((message, i) => (
                     <MessageItem
                         key={i}
