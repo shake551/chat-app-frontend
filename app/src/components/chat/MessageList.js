@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styled from "styled-components";
 import {AiOutlineSend} from "react-icons/ai";
+import useSWRInfinite from "swr/infinite";
 
 import userToken from '../user/UserToken';
 import UserRoomsLink from '../user/UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
-import useSWRInfinite from "swr/infinite";
 import LoadMessage from "./LoadMessage";
 
 const Header = styled.div`
