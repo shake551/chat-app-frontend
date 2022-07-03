@@ -67,8 +67,8 @@ const MessageList = () => {
 
     const api_domain = process.env.REACT_APP_API_DOMAIN;
 
-    const loadMore = (page) => {
-        axios.get(api_domain + '/api/chat/room/' + roomId + '?start=' + (page - 1) * loadCount + '&size=' + loadCount, {headers: header})
+    const loadMore = () => {
+        axios.get(api_domain + '/api/chat/room/' + roomId + '?start=' + messages.length + '&size=' + loadCount, {headers: header})
             .then(res => {
                 let getMessages = [];
                 res.data.messages.map((data) => {
