@@ -140,7 +140,7 @@ const MessageList = () => {
         try {
             chatSocket.send(JSON.stringify({
                 'message': value,
-                'user': decoded.name
+                'send_user': decoded.name
             }));
         } catch (e) {
             console.log(e)
