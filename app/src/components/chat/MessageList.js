@@ -155,6 +155,9 @@ const MessageList = () => {
             console.log(e)
         }
         setValue('');
+
+        // メッセージ送信時に送信者がundefinedになるためリロードで応急処置
+        window.location.reload();
         event.preventDefault();
     }
 
