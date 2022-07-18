@@ -55,7 +55,8 @@ const MessageList = () => {
     const roomId = roomName.split('/')[2];
 
     const chatSocket = new WebSocket(
-        'ws://0.0.0.0:8000/ws'
+        process.env.REACT_APP_WEBSOCKET_DOMAIN
+        + '/ws'
         + roomName
         + '/'
     )
