@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import styled from "styled-components";
 import {AiOutlineSend} from "react-icons/ai";
@@ -7,6 +7,7 @@ import userToken from '../user/UserToken';
 import UserRoomsLink from '../user/UserRoomsLink';
 import DecodeJwt from '../../util/DecodeJwt';
 import MessageItem from './MessageItem';
+import InfiniteScroll from "react-infinite-scroller";
 
 const Header = styled.div`
   background-color: #FAC46F;
@@ -47,7 +48,11 @@ const SubmitButton = styled.button`
 `;
 
 const MessageList = () => {
+    const loadCount = 20;
+
     const [messages, setMessage] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+
     const [value, setValue] = useState('');
     const [room, setRoom] = useState('');
 
@@ -60,6 +65,40 @@ const MessageList = () => {
         + roomName
         + '/'
     )
+
+    const api_domain = process.env.REACT_APP_API_DOMAIN;
+
+    const loadMore = () => {
+        axios.get(api_domain + '/api/chat/room/' + roomId + '?start=' + messages.length + '&size=' + loadCount, {headers: header})
+            .then(res => {
+                let getMessages = [];
+                res.data.messages.map((data) => {
+                    getMessages.push([data.message, data.user]);
+                });
+
+                setMessage(getMessages.concat(messages));
+
+                if (getMessages.length < loadCount) {
+                    setHasMore(false);
+                    console.log(getMessages)
+                }
+
+                setRoom({
+                    'id': res.data.room.room_id,
+                    'name': res.data.room.name
+                })
+
+                const success = userToken(res.data.token);
+                if (!success) {
+                    throw new Error();
+                }
+            })
+            .catch(err => {
+                if (err.response.status === 403) {
+                    window.location.href = '/login';
+                }
+            })
+    }
 
     chatSocket.onmessage = function (event) {
         const data = JSON.parse(event.data);
@@ -79,36 +118,6 @@ const MessageList = () => {
     const header = {
         "Authorization": "jwt " + window.localStorage.getItem('access_token'),
     }
-
-    const api_domain = process.env.REACT_APP_API_DOMAIN;
-
-    useEffect(() => {
-        axios.get(api_domain + '/api/chat/room/' + roomId, {headers: header})
-            .then(res => {
-                let getMessages = [];
-                res.data.messages.map((data) => {
-                    getMessages.push([data.message, data.user]);
-                });
-
-                // getしたメッセージをデフォルトにする
-                setMessage(getMessages);
-
-                setRoom({
-                    'id': res.data.room.room_id,
-                    'name': res.data.room.name
-                })
-
-                const success = userToken(res.data.token);
-                if (!success) {
-                    throw new Error();
-                }
-            })
-            .catch(err => {
-                if (err.response.status === 403) {
-                    window.location.href = '/login';
-                }
-            })
-    }, [])
 
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -147,8 +156,13 @@ const MessageList = () => {
             console.log(e)
         }
         setValue('');
+
+        // メッセージ送信時に送信者がundefinedになるためリロードで応急処置
+        window.location.reload();
         event.preventDefault();
     }
+
+    const loader = <div className="loader" key={0}>Loading ...</div>;
 
     return (
         <div>
@@ -156,13 +170,23 @@ const MessageList = () => {
                 {room.name}
             </Header>
             <MessageArea>
-                {messages.map((message, i) => (
-                    <MessageItem
-                        key={i}
-                        message={message[0]}
-                        send_by={message[1]}
-                    />
-                ))}
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={loadMore}
+                    hasMore={hasMore}
+                    loader={loader}
+                    isReverse={true}
+                    useWindow={false}
+                >
+
+                    {messages.map((message, i) => (
+                        <MessageItem
+                            key={i}
+                            message={message[0]}
+                            send_by={message[1]}
+                        />
+                    ))}
+                </InfiniteScroll>
             </MessageArea>
             <MessageForm onSubmit={handleSubmit}>
                 <MessageTextArea
