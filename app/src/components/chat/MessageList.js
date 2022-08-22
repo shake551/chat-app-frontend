@@ -110,7 +110,7 @@ const MessageList = () => {
     }
 
     chatSocket.onerror = function (event) {
-        window.location.reload();
+        // window.location.reload();
     }
 
     console.log(chatSocket);
