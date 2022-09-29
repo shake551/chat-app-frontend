@@ -28,7 +28,8 @@ const RoomLinkButton = styled.button`
   width: 150px;
   height: 150px;
   margin: 10px;
-  padding: 0;
+  padding: 10px;
+  overflow-wrap: break-word;
 `;
 
 const RoomLinkElement = styled.div`
