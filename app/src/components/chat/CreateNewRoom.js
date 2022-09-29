@@ -1,9 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import styled from "styled-components";
 
 import userToken from '../user/UserToken';
 import DecodeJwt from '../../util/DecodeJwt';
 import UserRoomsLink from '../user/UserRoomsLink';
+
+const CreateRoomList = styled.ul`
+  list-style: none;
+`
+
+const CreateRoomLinkButton = styled.button`
+  display: table;
+  background-color: #fff;
+  border-color: #000;
+  border-radius: 20px;
+  width: 80%;
+  height: 50px;
+  margin: 20px;
+  padding: 10px;
+  overflow: hidden;
+`;
+
+const CreateRoomLinkElement = styled.div`
+  font-size: 20px;
+`;
 
 function SelectNewRoom() {
     const [users, setUsers] = useState([]);
@@ -67,15 +88,17 @@ function SelectNewRoom() {
         <div>
             <h1>トークルーム作成</h1>
             <UserRoomsLink/>
-            <ul>
+            <CreateRoomList>
                 {users.map((user, i) => (
                     <li key={i}>
-                        <button onClick={(event) => handleClick(user.id, user.name, event)}>
-                            {user.name}
-                        </button>
+                        <CreateRoomLinkButton onClick={(event) => handleClick(user.id, user.name, event)}>
+                            <CreateRoomLinkElement>
+                                {user.name}
+                            </CreateRoomLinkElement>
+                        </CreateRoomLinkButton>
                     </li>
                 ))}
-            </ul>
+            </CreateRoomList>
         </div>
     )
 }
