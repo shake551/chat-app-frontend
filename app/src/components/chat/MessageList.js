@@ -59,12 +59,35 @@ const MessageList = () => {
     const roomName = window.location.pathname;
     const roomId = roomName.split('/')[2];
 
-    const chatSocket = new WebSocket(
-        process.env.REACT_APP_WEBSOCKET_DOMAIN
-        + '/ws'
-        + roomName
-        + '/'
-    )
+    let chatSocket;
+
+    const wsConnect = () => {
+        chatSocket = new WebSocket(
+            process.env.REACT_APP_WEBSOCKET_DOMAIN
+            + '/ws'
+            + roomName
+            + '/'
+        )
+
+        chatSocket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            console.log(data);
+            setMessage([
+                ...messages,
+                [data.message, data.user]
+            ]);
+        }
+
+        chatSocket.onclose = function (event) {
+            wsConnect();
+        }
+
+        chatSocket.onerror = function (event) {
+            console.log(event)
+        }
+    }
+
+    wsConnect();
 
     const api_domain = process.env.REACT_APP_API_DOMAIN;
 
@@ -98,19 +121,6 @@ const MessageList = () => {
                     window.location.href = '/login';
                 }
             })
-    }
-
-    chatSocket.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        console.log(data);
-        setMessage([
-            ...messages,
-            [data.message, data.user]
-        ]);
-    }
-
-    chatSocket.onerror = function (event) {
-        // window.location.reload();
     }
 
     console.log(chatSocket);
